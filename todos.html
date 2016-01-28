@@ -1,0 +1,70 @@
+<template name="main">
+  <h1>Todos</h1>
+  {{> navigation}}
+  {{> yield}}
+  <hr>
+  <p>Copyright &copy; Todos, 2016</p>
+</template>
+
+<template name="navigation">
+  <ul>
+    <li><a href="{{pathFor route='home'}}">Home</a></li>
+    <li><a href="{{pathFor route='register'}}">Register</a></li>
+    <li><a href="{{pathFor route='login'}}">Login</a></li>
+  </ul>
+</template>
+
+<template name="home">
+  <p>Welcome to the Todos application.</p>
+</template>
+
+<!-- Attached to Template.todos.helper
+    for pulling data.
+-->
+<template name="todos">
+  {{> addTodo}}
+  <ul>
+    {{#each todo}}
+      {{> todoItem}}
+    {{/each}}
+  </ul>
+  {{> todosCount}}
+</template>
+
+<!-- Since being called in {{todos}} it has
+    access to the Template.todos.helper. Splitting
+    to multiple Templates can help prevent data leaks.
+-->
+<template name="todoItem">
+  <li class="{{checked}}">
+    <input type="checkbox" {{checked}}>
+    <!-- Having the input value set to dynamic allows
+        the user to change it without deleting and
+        creating a new todo item. This is more for UX.
+    -->
+    <input type="text" name="todoItem" value="{{name}}">
+    [<a href="#" class="delete-todo">Delete</a>]
+  </li>
+</template>
+
+<!-- Allows users to add their own todo items
+    to the "Todos" Collection. Since there is no
+    submit button, users will use the "return" key.
+    It is called through and events function.
+-->
+<template name="addTodo">
+  <form>
+    Create a task:
+    <input type="text"  placeholder="Type a task here..." name="todoName">
+  </form>
+</template>
+
+<template name="todosCount">
+  {{#if totalTodos}}
+    <p>You have completed {{completedTodos}} out of {{totalTodos}} tasks.</p>
+  {{/if}}
+</template>
+
+<template name="register">
+  <h2>Register</h2>
+</template>
