@@ -1,6 +1,7 @@
 <template name="main">
   <h1>Todos</h1>
   {{> navigation}}
+  {{> lists}}
   {{> yield}}
   <hr>
   <p>Copyright &copy; Todos, 2016</p>
@@ -59,6 +60,7 @@
   </form>
 </template>
 
+<!-- Displays counter for how many Todos are completed -->
 <template name="todosCount">
   {{#if totalTodos}}
     <p>You have completed {{completedTodos}} out of {{totalTodos}} tasks.</p>
@@ -67,4 +69,28 @@
 
 <template name="register">
   <h2>Register</h2>
+</template>
+
+<!-- Allows user to create lists -->
+<template name="addList">
+  <form>Create a list:
+    <input type="text" placeholder="List name here..." name="listName">
+  </form>
+</template>
+
+<!-- Pulls the listName from database -->
+<template name="lists">
+  <h2>Lists</h2>
+  {{> addList}}
+  <ul>
+    <!-- Anytime you use #each or #if you need to create a helper -->
+    {{#each list}}
+      <li><a href="{{pathFor route='listPage'}}">{{name}}</a></li>
+    {{/each}}
+  </ul>
+</template>
+
+<template name="listPage">
+  <h2>Tasks: {{name}}</h2>
+  {{> todos}}
 </template>
