@@ -2,7 +2,6 @@ Todos = new Mongo.Collection('todos');
 Lists = new Mongo.Collection('lists');
 
 if (Meteor.isClient) {
-  // client code goes here
 
   // returns all of the documents from the "Todos" Collection
   Template.todos.helpers({
@@ -35,6 +34,10 @@ if (Meteor.isClient) {
       var currentList = this._id;
       return Todos.find({ listId: currentList, completed: true }).count();
     }
+  });
+
+  Template.lists.onCreated(function() {
+    this.subscribe('lists');
   });
 
   // retrieves the list from the "Lists" Collection
@@ -225,5 +228,13 @@ if (Meteor.isClient) {
 }
 
 if (Meteor.isServer) {
- // server code goes here
+  Meteor.publish('lists', function(){
+    var currentUser = this.userId;
+    return Lists.find({ createdBy: currentUser });
+  });
+
+  Meteor.publish('todos', function(currentList){
+    var currentUser = this.userId;
+    return Todos.find({ createdBy: currentUser });
+  });
 }

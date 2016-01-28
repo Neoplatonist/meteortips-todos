@@ -1,6 +1,6 @@
 Router.route('/', {
   name: 'home',
-  template: 'home'
+  template: 'home',
 });
 Router.route('/register');
 Router.route('/login');
@@ -22,9 +22,14 @@ Router.route('/list/:_id', {
     } else {
       this.render("login"); // if not logged in redirect to login page
     }
+  },
+  waitOn: function(){
+    var currentList = this.params._id;
+    return Meteor.subscribe('todos', currentList);
   }
 });
 
 Router.configure({
-  layoutTemplate: 'main'
+  layoutTemplate: 'main',
+  loadingTempalte: 'loading'
 });

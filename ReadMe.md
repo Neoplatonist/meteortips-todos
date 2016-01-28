@@ -1,3 +1,5 @@
+http://meteortips.com/second-meteor-tutorial/
+
 
 meteor add
 
